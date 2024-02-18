@@ -30,12 +30,10 @@ const getCart = async (req, res,next) =>
   let cart = new Cart(req.session.cart ? req.session.cart : {});
   if(cart.totalQty != 0)
   {
-    console.log(cart);
     res.render('pages/cart',{ products: cart.generateArray() ,subtotal : cart.totalPrice,qt: cart.totalQty ,cart_counter: cart.countProducts() });
   }
   else
   {
-    console.log("done");
     res.render('pages/cart',{ products: undefined ,subtotal : cart.totalPrice , qt: cart.totalQty , cart_counter: cart.countProducts() });
   }
 };
@@ -43,18 +41,20 @@ const getCart = async (req, res,next) =>
 const reduceByOne = async (req, res,next) =>
 {
   let cart = new Cart(req.session.cart ? req.session.cart : {});
-  cart.reduceByOne(req.params.id);
+  
 
   if(cart.totalQty != 0)
   {
-    console.log(cart);
-    res.render('pages/cart',{ products: cart.generateArray() ,subtotal : cart.totalPrice,qt: cart.totalQty ,cart_counter: cart.countProducts() });
+    cart.removeItem(req.params.id);
+    req.session.cart = cart;
+    console.log(req.session.cart);
+    res.redirect('/cart');
   }
   else
   {
-    console.log("done");
-    res.render('pages/cart',{ products: undefined ,subtotal : cart.totalPrice , qt: cart.totalQty , cart_counter: cart.countProducts() });
+    res.redirect('/cart');
   }
+
 };
 
 module.exports =  {addCart,getCart,reduceByOne} ;

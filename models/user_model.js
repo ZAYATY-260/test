@@ -14,6 +14,9 @@ const productsSchema = new Schema({
     },
     Email: {
         type: String,
+    },
+    Phonenumber: {
+        type: String,
     }
 }, { timestamps: true });
 

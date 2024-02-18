@@ -19,15 +19,28 @@ class Cart {
     }
 
     reduceByOne(id) {
-        this.items[id].qty--;
-        this.items[id].Price -= this.items[id].item.Price;
-        this.totalQty--;
-        this.totalPrice -= this.items[id].item.Price;
-
-        if (this.items[id].qty <= 0) {
-            delete this.items[id];
+        console.log("Reducing quantity by one for item with id:", id);
+        console.log("Previous quantity:", this.items[id] ? this.items[id].qty : "Item not found");
+        if (this.items[id]) {
+            this.items[id].qty--;
+            this.items[id].Price -= this.items[id].item.Price;
+            this.totalQty--;
+            this.totalPrice -= this.items[id].item.Price;
+    
+            if (this.items[id].qty <= 0) {
+                console.log("Quantity became zero or less. Deleting item with id:", id);
+                delete this.items[id];
+            }
+        } else {
+            console.log("Item with id:", id, "not found in cart.");
         }
+        console.log("New quantity:", this.items[id] ? this.items[id].qty : "Item not found");
+        console.log("Total quantity after reduction:", this.totalQty);
+        console.log("Total price after reduction:", this.totalPrice);
     }
+    
+    
+    
 
     deleteAllItems() {
         this.items = {};

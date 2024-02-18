@@ -11,7 +11,7 @@ const get_product_index = async (req, res, next) => {
 
   product.aggregate([{ $sample: { size: 4 } }])
   .then(result => {
-    console.log(result);
+    
     res.render('pages/index', { product_client: result, isEmpty: result.length >= 4 ? false : true ,  cart_counter: cart.countProducts()  });
   })
   .catch(err => {
@@ -26,7 +26,7 @@ const get_product_by_id = async (req, res) => {
   const id = req.params.id;
   product.findById(id)
     .then(result => {
-      console.log(result);
+    
       res.render('pages/view-product', { product_client: result ,  cart_counter: cart.countProducts() }  );
     })
     .catch(err => {

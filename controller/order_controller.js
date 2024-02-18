@@ -1,6 +1,6 @@
 
 const user = require("../models/user_model.js");
-const Cart=  require("../models/cart-model.js");
+const Cart =  require("../models/cart-model.js");
 
 
 
@@ -14,6 +14,7 @@ const Add_order = async (req, res, next) =>
          Lname: req.body.lastName,
          Email: req.body.email,
          Address: req.body.address,
+         Phonenumber: req.body.phonenumber,
         
         });
         
