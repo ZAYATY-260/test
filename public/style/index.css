@@ -1,0 +1,39 @@
+*
+{
+    background-color: black;
+    font-family: "Karla", sans-serif;
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-optical-sizing: auto;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.top-navbar
+{
+    width: 100%;
+    height: 140px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  color: black; /* Change arrow color to white */
+  background-color: transparent;
+
+}
+
+.img
+{
+    width: 80px;
+}
+
+.copyrights
+{
+  font-size: small;
+  font-weight:  bold;
+
+}

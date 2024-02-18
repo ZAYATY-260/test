@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image" href="../images/logo.jpeg">
+    <title>17</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+rel="stylesheet"
+/>
+<link rel="stylesheet" href="style/index.css">
+<script src="style/index.js"></script>
+</head>
+<body style="background-color: black;">
+  <%- include('../partials/top-nav.ejs') %>
+
+
+  <section class="bg-light pt-5 pb-5 ">
+    <div class="container bg-light  rounded shadow">
+        <div class="row bg-light w-100">
+            <div class="col-lg-12 col-md-12 col-12 bg-light">
+                <h3 class="display-5 mb-2 text-center bg-light">Shopping Cart</h3>
+                <p class="mb-5 text-center bg-light">
+                    <% if(products===undefined){%>
+                        <i class="text-info font-weight-bold">
+                            <%= qt%>
+                        </i> items in your cart
+                </p>
+                <% } else { %>
+                    <i class="text-info font-weight-bold bg-light">
+                        <%= qt%>
+                    </i> items in your cart</p>
+                    <table id="shoppingCart" class="table table-condensed table-responsive bg-light">
+                        <thead>
+                            <tr>
+                                <th style="width:60%">Product</th>
+                                <th style="width:12%">Price</th>
+                                <th style="width:10%">Quantity</th>
+                                <th style="width:16%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(products !=undefined ){%>
+                                <% products.forEach((product)=> { %>
+                                    <%- include('../partials/product-cart', { product: product }) %>
+                                        <% }); %>
+                                            <% } %>
+                        </tbody>
+                    </table>
+
+                    <div class="float-right text-right bg-light">
+                        <h4 class="bg-light">Subtotal:</h4>
+                        <h1 class="bg-light">
+                            <%= subtotal %>
+                        </h1>
+                    </div>
+            </div>
+        </div>
+        <div class="row mt-4 d-flex align-items-center bg-light">
+            <div class="col-sm-6 order-md-2 text-right bg-light">
+                <a href="/user/Checkout" class="btn btn-dark mb-4 btn-lg pl-5 pr-5">Checkout</a>
+            </div>
+            <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left bg-light">
+                <a href="/user/products" class="btn btn-dark">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</section>
+
+<%- include('../partials/bottom-nav.ejs') %>
+<!-- Font Awesome JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+<!-- MDB JS -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.2.0/mdb.min.js"></script>
+</body>
+</html>
