@@ -9,6 +9,7 @@ const app = express()
 const port = 3000;
 const dbURI = "mongodb+srv://zayaty:9H3jdMZ3ntLDcowq@cluster0.33tbygn.mongodb.net/test?retryWrites=true&w=majority"
 const index_router = require('./routes/index.js');
+const admin_router = require ( "./routes/admin.js");
 
 
 mongoose.connect(dbURI)
@@ -50,7 +51,7 @@ app.set("views", path.join(__dirname, "views"));
 
 //setup routes
 app.use("/"  , index_router);
-
+app.use("/admin",admin_router);
 
 // Handling other errors
 app.use((err, req, res, next) => 

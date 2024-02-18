@@ -43,7 +43,7 @@ const get_product_admin = async (req, res, next) => {
     });
 }
 const Add_product = async (req, res, next) => {
-  console.log(req.body);
+
   try {
     if (!req.file || Object.keys(req.file).length === 0) {
       return res.status(400).send('No files were uploaded.');
@@ -52,11 +52,10 @@ const Add_product = async (req, res, next) => {
     const imgFile = req.file;
 
       const products = new product({
-        Name: req.body.Name,
-        Category: req.body.Category,
-        Description: req.body.Description,
-        Price: req.body.Price,
-        Rating: req.body.Rating,
+        pname: req.body.name,
+        Price: req.body.price,
+        Description: req.body.description,
+        category: req.body.category,
         Image: imgFile.originalname,
       });
 
