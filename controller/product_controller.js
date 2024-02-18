@@ -4,6 +4,10 @@ const path = require('path');
 const fs = require('fs');
 const mongo = require('mongoose')
 
+  // Get products by date
+ 
+  // Other controller methods...
+
 
 const get_product_index = async (req, res, next) => {
   
@@ -18,6 +22,21 @@ const get_product_index = async (req, res, next) => {
     console.log(err);
   });
 
+}
+
+const get_product_for_admin = async (req, res) => {
+
+
+  product.find()
+    .then(products => {
+      console.log(products);
+      res.render('pages/view_product_admin', { product_admin: products });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    });
+  
 }
 
 const get_product_by_id = async (req, res) => {
@@ -124,19 +143,34 @@ const Edit_product = (req, res, next) => {
 };
 
 const Delete_product = (req, res) => {
+  const productId = req.params.id;
+  const imgFileName = req.params.img;
 
-    product.findByIdAndDelete(req.params.id)
+  // Check if imgFileName is provided
+  if (!imgFileName) {
+    return res.status(400).send('Image file name is required');
+  }
+
+  product.findByIdAndDelete(productId)
     .then(result => {
-      fs.unlink(path.join(__dirname, '../public/images/' + req.params.img), (err) => {
+      if (!result) {
+        return res.status(404).send('Product not found');
+      }
+
+      // Delete the associated image file
+      const imagePath = path.join(__dirname, '../public/images/', imgFileName);
+      fs.unlink(imagePath, (err) => {
         if (err) {
-          throw err;
+          console.error(err);
+          return res.status(500).send('Error deleting image file');
         }
-        res.redirect('/');
+        res.render('pages/add_product');
       });
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
+      res.status(500).send('Internal Server Error');
     });
 };
 
-module.exports = { get_product_admin, get_product_index, Add_product, Delete_product, Edit_product  , get_product_by_id};
+module.exports = { get_product_admin, get_product_index, Add_product, Delete_product, Edit_product  , get_product_by_id , get_product_for_admin};

@@ -22,4 +22,8 @@ router.get("/add_product",(req,res)=>
 
 router.post("/add_product",upload.single('image'),Product.Add_product);
 
+router.get("/view_product",Product.get_product_for_admin);
+
+router.get('/delete_product/:id/:img',Product.Delete_product);
+
 module.exports = router;

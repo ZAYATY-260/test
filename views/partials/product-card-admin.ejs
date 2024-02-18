@@ -1,0 +1,17 @@
+<div class="col ">
+    <a href="/view/<%= product._id %>">
+    <div class="card" style="max-width: 300px; position: relative; ">
+      <div class="bg-image hover-zoom" style="position: relative;">
+        <img src="../images/<%= product.Image %>" class="card-img-top img-fluid" alt="Product Image">
+        <!-- Badge for sold out -->
+        <span class="badge bg-danger position-absolute bottom-0 end-0 m-2 p-2">Sold Out</span>
+      </div>
+      <div class="card-body " style="background-color: black;">
+        <h5 class="card-title text-light"><%= product.pname %></h5>
+        <p class="card-text text-light">LE <%= product.Price %> EGP</p>
+        <a href="/admin/delete_product/<%= product._id %>/<%= product.Image %>" class="btn btn-danger w-100">Delete</a>
+      </div>
+    </div>
+    </a>
+ 
+  </div>

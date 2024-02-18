@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+rel="stylesheet"
+/>
+    <link rel="stylesheet" href="/style/Style.css">
+    <link rel="stylesheet" href="/style/profile.css">
+    <link rel="stylesheet" href="/style/framework.css">
+    <link rel="stylesheet" href="/style/master.css">
+  </head>
+  <body>
+    <div class="page d-flex">
+      <%- include("../partials/sidebar_admin.ejs") %>
+      <div class="content w-full p-5">
+
+        <!-- End Head -->
+        <h1 class="p-relative  ">17 Products</h1>
+            <div class="row ">
+              <div class="btn-group d-flex justify-content-center  col-12 mb-5" role="group" aria-label="Basic outlined example">
+                <a type="button" class="btn btn-dark" href="/admin/add_product" >Add product</a>
+                <a type="button" class="btn btn-dark active" href="/admin/view_product">View Product</a>
+              </div>
+
+                <% for(let i = 0 ; i < product_admin.length; i++ ){%>
+                    <%- include('../partials/product-card-admin', { product: product_admin[i] }) %>
+                <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <script>
+        //el saf7a dy
+      $(document).ready(function() {
+          //l id bta3 l button
+          $('#delete').click(function() {
+              console.log('Delete button clicked');
+              const productId = $(this).data('id');
+              $.ajax({
+                  url: `/admin/delete/${productId}`,
+                  method: 'DELETE',
+                  success: function(response) {
+                      // Reload the page to show updated product list
+                      window.location.reload();
+                  },
+                  error: function(err) {
+                      console.log(err);
+                  }
+              });
+          });
+      });
+  </script> -->
+  </body>
+</html>
