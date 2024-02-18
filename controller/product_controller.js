@@ -79,7 +79,7 @@ const Add_product = async (req, res, next) => {
       });
 
       await products.save();
-      res.redirect('/');
+      res.render('pages/add_product');
     
   } catch (err) {
     console.error(err);
