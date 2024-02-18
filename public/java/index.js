@@ -1,4 +1,6 @@
-// Initialization for ES Users
-import { Collapse, initMDB } from "mdb-ui-kit";
 
-initMDB({ Collapse });
+
+window.addEventListener("load", function(){
+    document.getElementById("preloading").style.display = "none";
+    document.body.style.overflow = "visible";
+})
