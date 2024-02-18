@@ -19,6 +19,7 @@ const get_product_index = async (req, res, next) => {
   });
 
 }
+
 const get_product_by_id = async (req, res) => {
 
   let cart = new Cart(req.session.cart ? req.session.cart : {});
