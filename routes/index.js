@@ -4,6 +4,9 @@ const Product = require("../controller/product_controller.js");
 const cart = require("../controller/cart_controller.js");
 const order = require("../controller/order_controller.js");
 
+
+
+  
 router.get('/', Product.get_product_index);
 
 router.get('/cart',cart.getCart);

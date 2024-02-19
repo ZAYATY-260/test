@@ -52,7 +52,9 @@ app.set("views", path.join(__dirname, "views"));
 //setup routes
 app.use("/"  , index_router);
 app.use("/admin",admin_router);
-
+app.all('*',(req, res, next) => {
+  res.status(404).render('pages/404');
+});
 // Handling other errors
 app.use((err, req, res, next) => 
 {

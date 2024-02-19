@@ -15,6 +15,11 @@ const storage = multer.diskStorage({
   
 const upload = multer({ storage: storage })
 
+
+router.all('*',(req, res, next) => {
+  res.status(404).send('pages/404');
+});
+
 router.get("/add_product",(req,res)=>
 {
     res.render('pages/add_product');
