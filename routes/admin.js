@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 const Product = require("../controller/product_controller.js");
+const admin = require("../controller/admin_controller.js");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -15,16 +16,37 @@ const storage = multer.diskStorage({
   
 const upload = multer({ storage: storage })
 
+router.get('/', function (req, res) {
+  if (req.session && req.session.user) {
+    res.render('pages/signin');
+} else {
+    // Session is empty, redirect to the sign-in page
+    res.redirect('/signin');
+}
+});
 
+router.post('/signin',admin.signin );
 
 router.get("/add_product",(req,res)=>
 {
+  if (req.session && req.session.user) {
     res.render('pages/add_product');
+} else {
+    // Session is empty, redirect to the sign-in page
+    res.redirect('/signin');
+}
 });
 
 router.get("/admin_dashboard",(req,res)=>
 {
+  if (req.session && req.session.user) {
+    // Session is not empty, proceed to the next middleware or route handler
     res.render('pages/admin_dashboard');
+} else {
+    // Session is empty, redirect to the sign-in page
+    res.redirect('/signin');
+}
+   
 });
 
 router.post("/add_product",upload.single('image'),Product.Add_product);

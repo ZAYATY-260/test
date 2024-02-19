@@ -27,7 +27,7 @@ const get_product_index = async (req, res, next) => {
 
 const get_product_for_admin = async (req, res) => {
 
-
+  if (req.session && req.session.user) {
   product.find()
     .then(products => {
       console.log(products);
@@ -37,7 +37,11 @@ const get_product_for_admin = async (req, res) => {
       console.error(err);
       res.status(500).send('Internal Server Error');
     });
-  
+  }
+  else
+  {
+    res.redirect('/signin');
+  }
 }
 
 const get_product_search_results = async (req, res) => {
@@ -66,7 +70,7 @@ const get_product_search = async (req, res) => {
 }
 
 const get_orders_for_admin = async (req, res) => {
-
+  if (req.session && req.session.user) {
   user.find()
     .then(products => {
       console.log(products);
@@ -76,11 +80,16 @@ const get_orders_for_admin = async (req, res) => {
       console.error(err);
       res.status(500).send('Internal Server Error');
     });
-  
+  }
+  else
+  {
+    res.redirect('/signin');
+  }
 }
 
 
 const get_order_by_id = async (req, res) => {
+  if (req.session && req.session.user) {
   let cart;
   let data = await user.find({_id:req.params.id});
 
@@ -98,6 +107,11 @@ const get_order_by_id = async (req, res) => {
   {
     res.render("pages/admin_view_order" ,{order:products});
   }
+}
+else
+{
+  res.redirect('/signin');
+}
 };
 
 
@@ -116,6 +130,7 @@ const get_product_by_id = async (req, res) => {
     });
 }
 const get_product_admin = async (req, res, next) => {
+  if (req.session && req.session.user) {
     product.find()
     .then(result => {
       res.render('view_product', { product: result });
@@ -123,9 +138,16 @@ const get_product_admin = async (req, res, next) => {
     .catch(err => {
       console.log(err);
     });
+  }
+  else
+  {
+    res.redirect('/signin');
+  }
+
 }
 const Add_product = async (req, res, next) => {
 
+  if (req.session && req.session.user) {
   try {
     if (!req.file || Object.keys(req.file).length === 0) {
       return res.status(400).send('No files were uploaded.');
@@ -148,6 +170,11 @@ const Add_product = async (req, res, next) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
+  }
+}
+  else
+  {
+    res.redirect('/signin');
   }
 }
 
@@ -208,6 +235,7 @@ const Edit_product = (req, res, next) => {
 
 const Delete_order = (req, res) => 
 {
+  if (req.session && req.session.user) {
   const productId = req.params.id;
 
   user.findByIdAndDelete(productId)
@@ -221,8 +249,14 @@ const Delete_order = (req, res) =>
     }
   })
 }
+  else
+  {
+    res.redirect('/signin');
+  }
+}
 
 const Delete_product = (req, res) => {
+  if (req.session && req.session.user) {
   const productId = req.params.id;
   const imgFileName = req.params.img;
 
@@ -251,6 +285,11 @@ const Delete_product = (req, res) => {
       console.error(err);
       res.status(500).send('Internal Server Error');
     });
+  }
+  else
+  {
+    res.redirect('/signin');
+  }
 };
 
 module.exports = { get_product_admin, get_product_index,get_order_by_id,Delete_order, Add_product,get_orders_for_admin, Delete_product, Edit_product  , get_product_by_id , get_product_for_admin ,get_product_search , get_product_search_results};

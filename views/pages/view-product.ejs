@@ -57,7 +57,13 @@ rel="stylesheet"
         <h6 class="text-muted">17</h6>
         <h2 class="text-light" style="font-size: 1.5rem;"><%= product_client.pname  %></h2>
         <p class="text-light" style="font-size: 1rem;"><%= product_client.Description  %></p>
-        <h5 class="ms-2 text-light" style="font-size: 1rem;">LE <%= product_client.Price  %> EGP</h5>
+        <% if(product_client.sale != null){ %>
+          <p class="card-text text-light" style="font-size: 1rem; font-weight: 200;">
+            <del class="text-danger me-3" style="text-decoration: line-through;">LE <%= product_client.sale%>.00 EGP</del> LE <%= product_client.Price%>.00 EGP
+          </p>
+        <%}else{ %>
+          <p class="card-text text-light" style="font-size: 1.2rem; font-weight: 200;">LE <%= product_client.Price%>.00 EGP</p>
+        <% } %>
         <div class="mt-5">
           <h5 class="text-light" style="font-size: 0.9rem;"> Size</h5>
         <form id="sizeForm" method="post" action="/add-to-cart/<%= product_client._id  %>">
