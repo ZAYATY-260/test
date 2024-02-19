@@ -14,14 +14,17 @@ const get_product_index = async (req, res, next) => {
   
   let cart = new Cart(req.session.cart ? req.session.cart : {});
 
-  product.aggregate([{ $sample: { size: 8} }])
-  .then(result => {
+  try {
+    const products = await product.find();
     
-    res.render('pages/index', { product_client: result, isEmpty: result.length >= 4 ? false : true ,  cart_counter: cart.countProducts()  });
-  })
-  .catch(err => {
-    console.log(err);
-  });
+    // Extract file paths from each product's images array
+    const productImages = products.map(product => product.images).flat();
+    
+    res.render('pages/index', { product_client: products, product_images: productImages, isEmpty: products.length >= 4 ? false : true, cart_counter: cart.countProducts() });
+  } catch (err) {
+    console.error(err);
+    next(err); // Pass error to the error handling middleware
+  }
 
 }
 
@@ -117,17 +120,26 @@ else
 
 
 const get_product_by_id = async (req, res) => {
-
   let cart = new Cart(req.session.cart ? req.session.cart : {});
   const id = req.params.id;
   product.findById(id)
     .then(result => {
-    
-      res.render('pages/view-product', { product_client: result ,  cart_counter: cart.countProducts() }  );
+      // Check if the result exists and has images
+      if (!result || !result.images) {
+        throw new Error('Product not found or has no images');
+      }
+      
+      // Extract file paths from the product's images array
+      const productImages = result.images;
+  
+      res.render('pages/view-product', { product_client: result, product_images: productImages, cart_counter: cart.countProducts() });
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
+      // Handle the error appropriately, such as rendering an error page
+      res.status(500).render('pages/error', { error: err });
     });
+  
 }
 const get_product_admin = async (req, res, next) => {
   if (req.session && req.session.user) {
@@ -146,37 +158,32 @@ const get_product_admin = async (req, res, next) => {
 
 }
 const Add_product = async (req, res, next) => {
-
-  if (req.session && req.session.user) {
   try {
-    if (!req.file || Object.keys(req.file).length === 0) {
+    if (!req.files || req.files.length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
 
-    const imgFile = req.file;
+    const imgFiles = req.files;
+    const imgPaths = imgFiles.map(file => file.originalname);
 
-      const products = new product({
-        pname: req.body.name,
-        Price: req.body.price,
-        Description: req.body.description,
-        category: req.body.category,
-        sale: req.body.sale,
-        Image: imgFile.originalname,
-      });
+    const newProduct = new product({
+      pname: req.body.pname,
+      Price: req.body.Price,
+      Description: req.body.Description,
+      category: req.body.category,
+      sale: req.body.sale,
+      images: imgPaths // Assuming 'images' is the field to store file paths
+    });
 
-      await products.save();
-      res.render('pages/add_product');
-    
+    await newProduct.save();
+    res.render('pages/add_product');
+
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
   }
-}
-  else
-  {
-    res.render('pages/signin');
-  }
-}
+};
+
 
 const Edit_product = (req, res, next) => {
 
@@ -245,7 +252,7 @@ const Delete_order = (req, res) =>
     }
     else
     {
-      res.render('pages/admin_order');
+      res.render('pages/admin_view_order');
     }
   })
 }
@@ -257,39 +264,35 @@ const Delete_order = (req, res) =>
 
 const Delete_product = (req, res) => {
   if (req.session && req.session.user) {
-  const productId = req.params.id;
-  const imgFileName = req.params.img;
-
-  // Check if imgFileName is provided
-  if (!imgFileName) {
-    return res.status(400).send('Image file name is required');
-  }
-
-  product.findByIdAndDelete(productId)
-    .then(result => {
-      if (!result) {
-        return res.status(404).send('Product not found');
-      }
-
-      // Delete the associated image file
-      const imagePath = path.join(__dirname, '../public/images/', imgFileName);
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).send('Error deleting image file');
+    const productId = req.params.id;
+  
+    product.findByIdAndDelete(productId)
+      .then(result => {
+        if (!result) {
+          return res.status(404).send('Product not found');
         }
-        res.render('pages/add_product');
+  
+        // Delete the associated image files
+        result.images.forEach(imgFileName => {
+          const imagePath = path.join(__dirname, '../public/images/', imgFileName);
+          fs.unlink(imagePath, (err) => {
+            if (err) {
+              console.error(err);
+              return res.status(500).send('Error deleting image file');
+            }
+          });
+        });
+  
+        res.render('pages/add_product'); // Render appropriate view after deletion
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
       });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send('Internal Server Error');
-    });
-  }
-  else
-  {
+  } else {
     res.render('pages/signin');
   }
+  
 };
 
 module.exports = { get_product_admin, get_product_index,get_order_by_id,Delete_order, Add_product,get_orders_for_admin, Delete_product, Edit_product  , get_product_by_id , get_product_for_admin ,get_product_search , get_product_search_results};

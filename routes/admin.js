@@ -5,16 +5,20 @@ const router = express.Router();
 const Product = require("../controller/product_controller.js");
 const admin = require("../controller/admin_controller.js");
 
+// Define storage settings for Multer
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'public/images')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-  })
-  
-const upload = multer({ storage: storage })
+  destination: function (req, file, cb) {
+    // Set the destination folder for uploaded files
+    cb(null, 'public/images');
+  },
+  filename: function (req, file, cb) {
+    // Set the filename for uploaded files
+    cb(null, file.originalname);
+  }
+});
+
+// Create Multer instance with the defined storage settings
+const upload = multer({ storage: storage });
 
 router.get('/', function (req, res) {
   if (req.session && req.session.user) {
@@ -49,7 +53,7 @@ router.get("/admin_dashboard",(req,res)=>
    
 });
 
-router.post("/add_product",upload.single('image'),Product.Add_product);
+router.post("/add_product",upload.array('images', 3),Product.Add_product);
 
 router.get("/admin_orders",Product.get_orders_for_admin);
 
@@ -59,6 +63,6 @@ router.get("/order/delete/:id",Product.Delete_order);
 
 router.get("/view_product",Product.get_product_for_admin);
 
-router.get('/delete_product/:id/:img',Product.Delete_product);
+router.get('/delete_product/:id',Product.Delete_product);
 
 module.exports = router;

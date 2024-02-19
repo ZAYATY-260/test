@@ -106,13 +106,13 @@ function validate(form){
           <div class="row m-2 justify-content-center">
             <form action="/admin/add_product" method="post" enctype="multipart/form-data" onsubmit="return validate(this)" >
               <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name"  >
+                <label for="pname">Name:</label>
+                <input type="text" class="form-control" id="pname" name="pname"  >
                  <div id="nameErr" class="err"> </div>
               </div>
               <div class="form-group">
-                <label for="price">Price:</label>
-                <input type="number" step=".01" class="form-control" id="price" name="price"  >
+                <label for="Price">Price:</label>
+                <input type="number" step=".01" class="form-control" id="Price" name="Price"  >
                 <div id="priceErr" class="err"> </div>
               </div>
               <div class="form-group">
@@ -121,8 +121,8 @@ function validate(form){
                 <div id="catErr" class="err"> </div>
               </div>
               <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea class="form-control" id="description" name="description" rows="3"  ></textarea>
+                <label for="Description">Description:</label>
+                <textarea class="form-control" id="Description" name="Description" rows="3"  ></textarea>
                 <div id="desErr" class="err"> </div>
               </div>
               <label for="sale">sale(optional):</label>
@@ -130,8 +130,8 @@ function validate(form){
               <div id="desErr" class="err"> </div>
               </div>
               <div class="form-group mt-5 ms-2">
-                <label for="image">Image:</label>
-                <input type="file" class="form-control-file" id="image" name="image"  >
+                <label for="images">Images:</label>
+                <input type="file" id="images" name="images" multiple required><br><br>            
               </div>
               <button type="submit" class="btn btn-dark mt-5 w-100">Add</button>
             </form>
@@ -140,5 +140,16 @@ function validate(form){
   </div>
   </div>
 </body>
+
+<script>
+document.getElementById('images').addEventListener('change', function() {
+  const files = this.files;
+  if (files.length !== 3) {
+    alert('Please select exactly three images.');
+    this.value = ''; // Clear the input field
+  }
+});
+</script>
+
 
 </html>

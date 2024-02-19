@@ -18,8 +18,8 @@ const productsSchema = new Schema({
     sale: {
         type: Number,
     },
-    Image: {
-        type: String,
+    images: {
+        type:[String]
     }
 }, { timestamps: true });
 
