@@ -40,7 +40,7 @@ const get_product_for_admin = async (req, res) => {
   }
   else
   {
-    res.redirect('/signin');
+    res.render('pages/signin');
   }
 }
 
@@ -83,7 +83,7 @@ const get_orders_for_admin = async (req, res) => {
   }
   else
   {
-    res.redirect('/signin');
+    res.render('pages/signin');
   }
 }
 
@@ -110,7 +110,7 @@ const get_order_by_id = async (req, res) => {
 }
 else
 {
-  res.redirect('/signin');
+  res.render('pages/signin');
 }
 };
 
@@ -141,7 +141,7 @@ const get_product_admin = async (req, res, next) => {
   }
   else
   {
-    res.redirect('/signin');
+    res.render('pages/signin');
   }
 
 }
@@ -174,7 +174,7 @@ const Add_product = async (req, res, next) => {
 }
   else
   {
-    res.redirect('/signin');
+    res.render('pages/signin');
   }
 }
 
@@ -251,7 +251,7 @@ const Delete_order = (req, res) =>
 }
   else
   {
-    res.redirect('/signin');
+    res.render('pages/signin');
   }
 }
 
@@ -288,7 +288,7 @@ const Delete_product = (req, res) => {
   }
   else
   {
-    res.redirect('/signin');
+    res.render('pages/signin');
   }
 };
 

@@ -21,7 +21,7 @@ router.get('/', function (req, res) {
     res.render('pages/signin');
 } else {
     // Session is empty, redirect to the sign-in page
-    res.redirect('/signin');
+    res.render('pages/signin');
 }
 });
 
@@ -33,7 +33,7 @@ router.get("/add_product",(req,res)=>
     res.render('pages/add_product');
 } else {
     // Session is empty, redirect to the sign-in page
-    res.redirect('/signin');
+    res.render('pages/signin');
 }
 });
 
@@ -44,7 +44,7 @@ router.get("/admin_dashboard",(req,res)=>
     res.render('pages/admin_dashboard');
 } else {
     // Session is empty, redirect to the sign-in page
-    res.redirect('/signin');
+    res.render('pages/signin');
 }
    
 });
