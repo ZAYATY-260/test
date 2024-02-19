@@ -25,27 +25,126 @@ rel="stylesheet"
 <script src="java/index.js"></script>
 </head>
 <style>
-  
+  .slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+.responsive-image {
+    width: 100%;
+    height: auto;
+    min-height: 700px; /* Adjust as needed */
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
 </style>
 <body class="bg-black">
 
     <%- include('../partials/top-nav.ejs') %>
+
+    <!-- Slideshow container -->
+
 <!-- Product Details Section -->
 <section class="container my-5">
     <div class="row">
       <div class="col-md-6">
-        <div class="row">
+        <div class="slideshow-container">
+
           <% for(let i = 0; i < product_images.length; i++) { %>
-            <div class="col-md-6 mb-4">
-              <div class="image-container">
-                <img src="../images/<%= product_images[i] %>" class="img-fluid" alt="Product Image <%= i + 1 %>">
-                <div class="magnifier"></div>
-              </div>
-            </div>
+          <!-- Full-width images with number and caption text -->
+          <div class="mySlides ">
+            <div class="numbertext"> <%= i+1 %> / 3</div>
+            <img src="../images/<%= product_images[i] %>" class="responsive-image" alt="Product Image">
+          </div>
           <% } %>
-        </div>
         
-      </div>
+        
+          <!-- Next and previous buttons -->
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+        <br>
+        
+      </div>       
+     
       <div class="col-md-6 mt-5">
         <h6 class="text-muted">17</h6>
         <h2 class="text-light" style="font-size: 1.5rem;"><%= product_client.pname  %></h2>
@@ -68,15 +167,19 @@ rel="stylesheet"
       
         </div>
 
-        <div class="mt-5">
+          <div class="mt-5">
             <h5 class="text-light"  style="font-size: 1rem;">Quantity</h5>
             <input type="number" class="form-control" value="1" min="1" disabled>
+
+
+            
           </div>
         
         <button type="submit" class="btn btn-dark mt-5 w-100" ">Add to Cart</a>
       </form>
       </div>
     </div>
+  </div>
   </section>
 
       
@@ -90,6 +193,33 @@ rel="stylesheet"
 
 
       <script>
+
+let slideIndex = 0; // Initialize slideIndex to 0
+    showSlides();
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("dot");
+        if (n >= slides.length) {slideIndex = 0}  // Reset slideIndex if it exceeds the number of slides
+        if (n < 0) {slideIndex = slides.length - 1}  // Reset slideIndex if it goes below 0
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex].style.display = "block";  // Display the current slide without -1
+        dots[slideIndex].className += " active";
+    }
 
 function updateSelectedSizeVisual() {
             var buttons = document.querySelectorAll('.size-option');
