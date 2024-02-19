@@ -46,18 +46,20 @@ rel="stylesheet"
                     <table id="shoppingCart" class="table table-condensed bg-light">
                         <thead>
                             <tr>
-                                <th style="width:40%">Product</th>
-                                <th style="width:15%">Size</th>
-                                <th style="width:15%">Price</th>
-                                <th style="width:15%">Quantity</th>
-                                <th style="width:15%">Delete</th>
+                                <th>Product</th>
+                                <th>Size</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% if(products !=undefined ){%>
-                            <% products.forEach((product)=> { %>
-                            <%- include('../partials/product-cart', { product: product }) %>
-                            <% }); %>
+                            <tr>
+                                <% products.forEach((product)=> { %>
+                                <%- include('../partials/product-cart', { product: product }) %>
+                                <% }); %>
+                            </tr>
                             <% } %>
                         </tbody>
                     </table>
