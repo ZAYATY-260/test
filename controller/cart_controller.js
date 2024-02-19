@@ -4,25 +4,35 @@ const Cart=  require("../models/cart-model.js");
 
 
 const addCart = async (req, res, next) => {
+  const { id: product_id } = req.params;
+  size = req.body.size;
+  try {
+      // Find the product by its ID in the database
+      const product = await Product.findById(product_id);
 
-    const product_id = req.params.id;
-    
-    const product = await Product.findById(product_id);
-      if(product)
-      {
-        let cart = new Cart(req.session.cart ? req.session.cart : {});
-        cart.add(product, product_id);
-        console.log()
-        req.session.cart = cart;
-        console.log(req.session.cart);
-        res.redirect('/');
+      if (product) {
+          // Initialize or retrieve the cart from the session
+          let cart = new Cart(req.session.cart ? req.session.cart : {});
+
+          // Add the product to the cart with the specified size
+          cart.add(product, product_id, size);
+
+          // Save the updated cart in the session
+          req.session.cart = cart;
+          console.log(req.session.cart);
+          // Redirect the user to the home page or any other appropriate page
+          res.redirect('/');
+      } else {
+          // If the product is not found, redirect the user to the home page
+          res.redirect('/');
       }
-      else
-      {
-        res.redirect('/');
-      }
-      
-  };
+  } catch (error) {
+      // Handle errors appropriately, e.g., logging or sending an error response
+      console.error(error);
+      next(error);
+  }
+};
+
 
 
 const getCart = async (req, res,next) =>
@@ -45,7 +55,7 @@ const reduceByOne = async (req, res,next) =>
 
   if(cart.totalQty != 0)
   {
-    cart.removeItem(req.params.id);
+    cart.removeItem(req.params.id, req.params.size);
     req.session.cart = cart;
     console.log(req.session.cart);
     res.redirect('/cart');

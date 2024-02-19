@@ -60,11 +60,13 @@ rel="stylesheet"
         <h5 class="ms-2 text-light" style="font-size: 1rem;">LE <%= product_client.Price  %> EGP</h5>
         <div class="mt-5">
           <h5 class="text-light" style="font-size: 0.9rem;"> Size</h5>
-          <div class="d-flex">
-            <button class="size-option me-3 p-3 btn btn-dark btn-rounded">S</button>
-            <button class="size-option me-3 p-3 btn btn-dark btn-rounded">M</button>
-            <button class="size-option p-3 btn btn-dark btn-rounded">L</button>
-          </div>
+        <form id="sizeForm" method="post" action="/add-to-cart/<%= product_client._id  %>">
+            <input type="hidden" id="size" name="size">
+            <button type="button" class="size-option me-3 p-3 btn btn-dark btn-rounded" value="S"  onclick="selectSize('S')">S</button>
+            <button type="button" class="size-option me-3 p-3 btn btn-dark btn-rounded" value="M"  onclick="selectSize('M')">M</button>
+            <button type="button" class="size-option p-3 btn btn-dark btn-rounded " value="L"  onclick="selectSize('L')">L</button>
+          
+      
         </div>
 
         <div class="mt-5">
@@ -72,7 +74,8 @@ rel="stylesheet"
             <input type="number" class="form-control" value="1" min="1" disabled>
           </div>
         
-        <a class="btn btn-dark mt-5 w-100" href="/add-to-cart/<%= product_client._id  %>">Add to Cart</a>
+        <button type="submit" class="btn btn-dark mt-5 w-100" ">Add to Cart</a>
+      </form>
       </div>
     </div>
   </section>
@@ -85,6 +88,39 @@ rel="stylesheet"
       
 
       <%- include('../partials/bottom-nav.ejs') %>
+
+
+      <script>
+
+function updateSelectedSizeVisual() {
+            var buttons = document.querySelectorAll('.size-option');
+            buttons.forEach(function(btn) 
+            {
+                // Remove active class from all buttons
+                btn.classList.remove('active');
+
+
+                  if(btn.value == document.getElementById('size').value )
+                  {
+                    btn.classList.add('active');
+                  }
+                
+            });
+
+            
+
+        }
+
+        function selectSize(size) {
+            // Update selected size
+            document.getElementById('size').value = size;
+            console.log("Size " + size);
+            // Update visual
+            updateSelectedSizeVisual();
+        }
+    
+
+    </script>
     <!-- MDB -->
 <script
 type="text/javascript"

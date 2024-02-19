@@ -11,9 +11,9 @@ router.get('/cart',cart.getCart);
 router.get('/view/:id', Product.get_product_by_id);
 
 //  add to cart 
-router.get('/add-to-cart/:id',cart.addCart);
+router.post('/add-to-cart/:id',cart.addCart);
 
-router.get('/cart/delete/:id',cart.reduceByOne);
+router.get('/cart/delete/:id/:size',cart.reduceByOne);
 
 router.post('/chekout', order.Add_order);
 

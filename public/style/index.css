@@ -63,3 +63,11 @@
 .btn-outline-light:hover:not(.active) {
     color: black !important; /* Change text color to black on hover */
 }
+
+.btn-dark.active
+ {
+    color: black !important; /* Change text color to black on hover */
+    padding: 10px;
+    background-color: white !important;
+}
+

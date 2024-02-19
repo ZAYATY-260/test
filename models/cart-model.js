@@ -1,5 +1,3 @@
-
-
 class Cart {
     constructor(oldcart) {
         this.items = oldcart.items || {};
@@ -7,10 +5,10 @@ class Cart {
         this.totalPrice = oldcart.totalPrice || 0;
     }
 
-    add(item, id) {
-        let storedItem = this.items[id];
+    add(item, id, size) {
+        let storedItem = this.items[id + '-' + size];
         if (!storedItem) {
-            storedItem = this.items[id] = { item: item, qty: 0, Price: 0 };
+            storedItem = this.items[id + '-' + size] = { item: item, qty: 0, Price: 0, size: size };
         }
         storedItem.qty++;
         storedItem.Price = storedItem.item.Price * storedItem.qty;
@@ -18,29 +16,19 @@ class Cart {
         this.totalPrice += storedItem.item.Price;
     }
 
-    reduceByOne(id) {
-        console.log("Reducing quantity by one for item with id:", id);
-        console.log("Previous quantity:", this.items[id] ? this.items[id].qty : "Item not found");
-        if (this.items[id]) {
-            this.items[id].qty--;
-            this.items[id].Price -= this.items[id].item.Price;
+    reduceByOne(id, size) {
+        const key = id + '-' + size;
+        if (this.items[key]) {
+            this.items[key].qty--;
+            this.items[key].Price -= this.items[key].item.Price;
             this.totalQty--;
-            this.totalPrice -= this.items[id].item.Price;
-    
-            if (this.items[id].qty <= 0) {
-                console.log("Quantity became zero or less. Deleting item with id:", id);
-                delete this.items[id];
+            this.totalPrice -= this.items[key].item.Price;
+
+            if (this.items[key].qty <= 0) {
+                delete this.items[key];
             }
-        } else {
-            console.log("Item with id:", id, "not found in cart.");
         }
-        console.log("New quantity:", this.items[id] ? this.items[id].qty : "Item not found");
-        console.log("Total quantity after reduction:", this.totalQty);
-        console.log("Total price after reduction:", this.totalPrice);
     }
-    
-    
-    
 
     deleteAllItems() {
         this.items = {};
@@ -48,10 +36,13 @@ class Cart {
         this.totalQty = 0;
     }
 
-    removeItem(id) {
-        this.totalQty -= this.items[id].qty;
-        this.totalPrice -= this.items[id].Price;
-        delete this.items[id];
+    removeItem(id, size) {
+        const key = id + '-' + size;
+        if (this.items[key]) {
+            this.totalQty -= this.items[key].qty;
+            this.totalPrice -= this.items[key].Price;
+            delete this.items[key];
+        }
     }
 
     generateArray() {
