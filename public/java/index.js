@@ -6,3 +6,8 @@ window.addEventListener("load", function(){
 
 
 
+
+function toggleSideNavbar() {
+    const sideNavbar = document.getElementById('navbarToggleExternalContent');
+    sideNavbar.classList.toggle('open');
+}

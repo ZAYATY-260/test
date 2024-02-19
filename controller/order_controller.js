@@ -7,28 +7,54 @@ const Cart =  require("../models/cart-model.js");
 
 const Add_order = async (req, res, next) => 
 { 
-        let cart = new Cart(req.session.cart ? req.session.cart : {});
-        
-        console.log(req.body );
-        console.log(req.session.cart );
+    let cart = new Cart(req.session.cart ? req.session.cart : {});
 
-        const products = new user(
-        {
-         Fname: req.body.firstName,
-         Lname: req.body.lastName,
-         Email: req.body.email,
-         Address: req.body.address,
-         Phonenumber: req.body.phonenumber,
-         cart: req.session.cart,
-        });
-
-        
-        if(await products.save())
-        {
-            req.session.cart = null;
-            cart.deleteAllItems();
-            res.redirect('/');
-        }
+    // Accessing total price
+    cart.totalPrice = cart.totalPrice + 40;
+    
+    // Save updated cart back to session
+    req.session.cart = cart;
+    
+    console.log(req.body);
+    console.log(req.session.cart);
+    
+    // Check if cart has items
+    if (Object.keys(cart.items).length === 0) {
+        return res.status(400).send("Cart is empty. Cannot proceed with the order.");
+    }
+    
+    // Check if user already exists based on email address
+    const existingUser = await user.findOne({ Email: req.body.email });
+    if (existingUser) {
+        return res.status(400).send("User with this email address already exists.");
+    }
+    
+    const userData = {
+        Fname: req.body.firstName,
+        Lname: req.body.lastName,
+        Email: req.body.email,
+        Address: req.body.address,
+        Phonenumber: req.body.phonenumber,
+        cart: req.session.cart,
+        // Additional data can be added here
+    };
+    
+    const newUser = new user(userData);
+    
+    try {
+        // Save the user document
+        await newUser.save();
+    
+        // Reset session cart and delete all items
+        req.session.cart = null;
+        cart.deleteAllItems();
+    
+        res.redirect('/');
+    } catch (error) {
+        console.error("Error saving user data:", error);
+        res.status(500).send("Error occurred while saving user data. Please try again later.");
+    }
+      
 }
  
       

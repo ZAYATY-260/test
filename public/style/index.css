@@ -90,3 +90,21 @@
         background-color: #555; /* color of the scroll thumb on hover */
     }
 
+    .side-navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20%;
+      height: 100vh;
+      background-color: black; /* Initially transparent background */
+      z-index: 100000000; /* Ensure it's above other content */
+      transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for background color and transform */
+      transform: translateX(-100%); /* Initially off-screen to the left */
+      overflow: hidden; /* Hide horizontal scrollbar */
+  }
+  
+  .side-navbar.open {
+      background-color: rgba(0, 0, 0, 0.7); /* Darken the background */
+      transform: translateX(0); /* Move the navbar to the visible position */
+  }
+  

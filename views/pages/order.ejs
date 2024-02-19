@@ -38,9 +38,10 @@
     }
   </style>
   <link rel="stylesheet" href="style/index.css">
-  <script src="style/index.js"></script>
+  <script src="java/index.js"></script>
 </head>
 <body>
+  <%- include('../partials/loader.ejs') %>
     <%- include('../partials/top-nav.ejs') %>
 
 <div class="container mt-5">
@@ -73,6 +74,7 @@
           <option value="">Select Payment Method</option>
           <option value="cashOnDelivery">Cash on Delivery</option>
         </select>
+        <p class="text-danger" >40 EGP will be added on the total price  for Shipping</p>
       </div>
       <hr class="mb-4">
       <button class="btn btn-dark btn-lg btn-block" type="submit">Place Order</button>

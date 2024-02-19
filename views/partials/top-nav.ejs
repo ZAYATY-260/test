@@ -1,40 +1,49 @@
-
-<div class="collapse " id="navbarToggleExternalContent" >
-    <div class="bg-black p-4">
-      <h5 class="text-white h4"></h5>
-      <span class="text-muted">Toggleable via the navbar brand.</span>
-    </div>
-  </div>
-<nav class="navbar navbar-dark bg-black top-navbar sticky-top " >
-  <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center w-100">
-      <!-- Button on the left -->
-      <button
-      data-mdb-collapse-init
-      class="navbar-toggler "
-      type="button"
-      data-mdb-target="#navbarToggleExternalContent"
-      aria-controls="navbarToggleExternalContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
+<!-- Side Navbar Content -->
+<div class="side-navbar bg-black" id="navbarToggleExternalContent">
+  <div class="p-4">
+      <!-- Close button -->
+      <button type="button" class="btn-close bg-white text-light position-absolute top-0 end-0 mt-2 me-2" aria-label="Close" onclick="toggleSideNavbar()"></button>
       
-    >
-      <i class="fas fa-bars"></i>
-    </button>
+      <!-- Navigation links -->
+      <ul class="nav flex-column mt-4 text-center">
+          <li class="nav-item mb-3 mt-5">
+              <a class="nav-link text-light fs-5 " href="/">Home</a>
+          </li>
+          <li class="nav-item mb-3">
+              <a class="nav-link text-light fs-5 " href="/search">Catalog</a>
+          </li>
+          <!-- Add more links as needed -->
+      </ul>
+  </div>
+</div>
 
-      <!-- Image in the middle -->
-      <div class="text-center">
-        <a href="/"><img src="../images/logo.jpeg" alt="" class="img-fluid img"></a>
-      </div>
 
-      <!-- Buttons on the right -->
-      <div class="d-flex justify-content-end">
-        <a href="/search" style="color: #ffffff;"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff; margin-right: 20px;" id="openSearchBtn"></i></a>
-        <a href="/cart" style="color: #ffffff; margin-right: 12px ; margin-bottom: 8px;">
-          <i class="fas fa-cart-shopping"></i>
-          <span class="badge rounded-pill badge-notification bg-danger" > <%= cart_counter %>+</span>
-        </a>
+<!-- Top Navbar -->
+<nav class="navbar navbar-dark bg-black top-navbar sticky-top">
+  <div class="container-fluid">
+      <div class="d-flex justify-content-between align-items-center w-100">
+          <!-- Button on the left to toggle side navbar -->
+          <button
+              class="navbar-toggler"
+              type="button"
+              onclick="toggleSideNavbar()"
+          >
+              <i class="fas fa-bars"></i>
+          </button>
+
+          <!-- Image in the middle -->
+          <div class="text-center">
+              <a href="/"><img src="../images/logo.jpeg" alt="" class="img-fluid img"></a>
+          </div>
+
+          <!-- Buttons on the right -->
+          <div class="d-flex justify-content-end">
+              <a href="/search" style="color: #ffffff;"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff; margin-right: 20px;" id="openSearchBtn"></i></a>
+              <a href="/cart" style="color: #ffffff; margin-right: 12px ; margin-bottom: 8px;">
+                  <i class="fas fa-cart-shopping"></i>
+                  <span class="badge rounded-pill badge-notification bg-danger" > <%= cart_counter %>+</span>
+              </a>
+          </div>
       </div>
-    </div>
   </div>
 </nav>
