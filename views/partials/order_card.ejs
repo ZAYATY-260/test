@@ -1,0 +1,15 @@
+
+
+<tr>
+    <td><%= product.Address %></td>
+    <td><%= product.Phonenumber %></td>
+    <td><%= product.Email %></td>
+    <td><%= product.Fname %></td>
+    <td><%= product.cart.totalPrice %></td>
+    <td><%= product.cart.totalQty %></td>
+    <td>
+    <a href="/admin/order/<%= product._id %>" class="btn btn-primary">View</a>
+    <a href="/admin/order/delete/<%= product._id %>" class="btn btn-danger">Delete</a>
+    </td>
+
+</tr>

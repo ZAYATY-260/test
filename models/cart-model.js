@@ -3,9 +3,9 @@ class Cart {
         this.items = oldcart.items || {};
         this.totalQty = oldcart.totalQty || 0;
         this.totalPrice = oldcart.totalPrice || 0;
-    }
+    
 
-    add(item, id, size) {
+        this.add = function(item, id, size) {
         let storedItem = this.items[id + '-' + size];
         if (!storedItem) {
             storedItem = this.items[id + '-' + size] = { item: item, qty: 0, Price: 0, size: size };
@@ -16,7 +16,7 @@ class Cart {
         this.totalPrice += storedItem.item.Price;
     }
 
-    reduceByOne(id, size) {
+    this.reduceByOne = function(id, size) {
         const key = id + '-' + size;
         if (this.items[key]) {
             this.items[key].qty--;
@@ -30,13 +30,13 @@ class Cart {
         }
     }
 
-    deleteAllItems() {
+    this.deleteAllItems = function() {
         this.items = {};
         this.totalPrice = 0;
         this.totalQty = 0;
     }
 
-    removeItem(id, size) {
+    this.removeItem = function(id, size) {
         const key = id + '-' + size;
         if (this.items[key]) {
             this.totalQty -= this.items[key].qty;
@@ -45,7 +45,7 @@ class Cart {
         }
     }
 
-    generateArray() {
+    this.generateArray = function() {
         var arr = [];
         for (var id in this.items) {
             arr.push(this.items[id]);
@@ -53,13 +53,14 @@ class Cart {
         return arr;
     }
 
-    countProducts() {
+    this.countProducts = function() {
         let count = 0;
         for (let id in this.items) {
             count += this.items[id].qty;
         }
         return count;
     }
+}
 }
 
 module.exports = Cart;

@@ -7,8 +7,15 @@
               <span class="badge bg-secondary position-absolute bottom-0 end-0 m-2 p-2 rounded-pill">Sold Out</span>
           </div>
           <div class="card-body m-0 p-0 pt-3" style="background-color: black;">
-              <h5 class="card-title text-light" style="font-size: 0.8rem; font-weight: bold;"><%= product.pname %></h5>
-              <p class="card-text text-light" style="font-size: 1.2rem; font-weight: 200;">LE <%= product.Price%>.00 EGP</p>
+              <h5 class="card-title text-light" style="font-size: 1rem; font-weight: bold;"><%= product.pname %></h5>
+              <% if(product.sale != null){ %>
+                <p class="card-text text-light" style="font-size: 1rem; font-weight: 200;">
+                  <del class="text-danger me-3" style="text-decoration: line-through;">LE <%= product.sale%>.00 EGP</del> LE <%= product.Price%>.00 EGP
+                </p>
+              <%}else{ %>
+                <p class="card-text text-light" style="font-size: 1.2rem; font-weight: 200;">LE <%= product.Price%>.00 EGP</p>
+              <% } %>
+              
           </div>
       </div>
   </a>

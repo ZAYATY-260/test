@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+rel="stylesheet"
+/>
+    <link rel="stylesheet" href="/style/Style.css">
+    <link rel="stylesheet" href="/style/profile.css">
+    <link rel="stylesheet" href="/style/framework.css">
+    <link rel="stylesheet" href="/style/master.css">
+</head>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .table_econatiner {
+        max-height: 200px; /* Set the maximum height of the table container */
+    overflow-y: auto;
+    }
+        table {
+            overflow: visible !important;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</style>
+
+<body>
+
+            <div class="page d-flex">
+                <%- include("../partials/sidebar_admin.ejs") %>
+
+                    <div class="content w-full p-5">
+
+                 <h2>Order Information</h2>
+                 <div class="table-container">
+                <table>
+                <thead>
+                <tr>
+                <th>product name</th>
+                <th>Price</th>
+                <th>size</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Sample data, replace with actual data from your database -->
+
+            <% order.items.forEach((product)=> { %>
+                <%- include('../partials/view_order_card', { product: product }) %>
+                <% }); %>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+
+    </div>
+    </div>
+    </div>
+
+
+</body>
+
+</html>

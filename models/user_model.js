@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const productsSchema = new Schema({
+
     Fname: {
         type: String,
     },
@@ -17,6 +18,9 @@ const productsSchema = new Schema({
     },
     Phonenumber: {
         type: String,
+    },
+    cart: {
+        type: Object,
     }
 }, { timestamps: true });
 

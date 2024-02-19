@@ -18,8 +18,14 @@ router.post('/add-to-cart/:id',cart.addCart);
 
 router.get('/cart/delete/:id/:size',cart.reduceByOne);
 
-router.post('/chekout', order.Add_order);
+router.post('/Checkout', order.Add_order);
 
-router.get('/chekout',order.view_order);
+router.get('/Checkout',order.view_order);
+
+router.get('/search', Product.get_product_search);
+
+router.post('/search', Product.get_product_search_results);
+
+
 
 module.exports = router;

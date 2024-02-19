@@ -1,5 +1,6 @@
 const product = require("../models/products_model.js");
 const Cart=  require("../models/cart-model.js");
+const user=  require("../models/user_model.js");
 const path = require('path');
 const fs = require('fs');
 const mongo = require('mongoose')
@@ -39,6 +40,68 @@ const get_product_for_admin = async (req, res) => {
   
 }
 
+const get_product_search_results = async (req, res) => {
+    let cart = new Cart(req.session.cart ? req.session.cart : {});
+    const query = req.body.query;
+    product.find({ $text: { $search: query } })
+    .then(products => {
+        res.render('pages/search', {  product_search: products ,  cart_counter: cart.countProducts()});
+    })
+    .catch(err => console.log(err));
+};
+
+const get_product_search = async (req, res) => {
+
+  let cart = new Cart(req.session.cart ? req.session.cart : {});
+  product.find()
+    .then(products => {
+      console.log(products);
+      res.render('pages/search', { product_search: products ,  cart_counter: cart.countProducts()});
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    });
+  
+}
+
+const get_orders_for_admin = async (req, res) => {
+
+  user.find()
+    .then(products => {
+      console.log(products);
+      res.render('pages/admin_order', { order: products });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    });
+  
+}
+
+
+const get_order_by_id = async (req, res) => {
+  let cart;
+  let data = await user.find({_id:req.params.id});
+
+  if(data)
+  {
+    data.forEach((products) => {
+
+    cart = new Cart(products.cart);
+    products.items = cart.generateArray();
+
+    res.render("pages/admin_view_order" ,{order:products});
+    });
+  }
+  else
+  {
+    res.render("pages/admin_view_order" ,{order:products});
+  }
+};
+
+
+
 const get_product_by_id = async (req, res) => {
 
   let cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -75,6 +138,7 @@ const Add_product = async (req, res, next) => {
         Price: req.body.price,
         Description: req.body.description,
         category: req.body.category,
+        sale: req.body.sale,
         Image: imgFile.originalname,
       });
 
@@ -142,6 +206,22 @@ const Edit_product = (req, res, next) => {
 
 };
 
+const Delete_order = (req, res) => 
+{
+  const productId = req.params.id;
+
+  user.findByIdAndDelete(productId)
+  .then(result => {
+    if (!result) {
+      return res.status(404).send('Product not found');
+    }
+    else
+    {
+      res.render('pages/admin_order');
+    }
+  })
+}
+
 const Delete_product = (req, res) => {
   const productId = req.params.id;
   const imgFileName = req.params.img;
@@ -173,4 +253,4 @@ const Delete_product = (req, res) => {
     });
 };
 
-module.exports = { get_product_admin, get_product_index, Add_product, Delete_product, Edit_product  , get_product_by_id , get_product_for_admin};
+module.exports = { get_product_admin, get_product_index,get_order_by_id,Delete_order, Add_product,get_orders_for_admin, Delete_product, Edit_product  , get_product_by_id , get_product_for_admin ,get_product_search , get_product_search_results};

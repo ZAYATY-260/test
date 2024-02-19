@@ -7,28 +7,43 @@ const Cart =  require("../models/cart-model.js");
 
 const Add_order = async (req, res, next) => 
 { 
-    console.log(req.body);
+        let cart = new Cart(req.session.cart ? req.session.cart : {});
+        
+        console.log(req.body );
+        console.log(req.session.cart );
 
-        const products = new user({
+        const products = new user(
+        {
          Fname: req.body.firstName,
          Lname: req.body.lastName,
          Email: req.body.email,
          Address: req.body.address,
          Phonenumber: req.body.phonenumber,
-        
+         cart: req.session.cart,
         });
-        
 
         
-        await products.save();
- 
-
-        res.redirect('/');
+        if(await products.save())
+        {
+            req.session.cart = null;
+            cart.deleteAllItems();
+            res.redirect('/');
+        }
 }
+ 
+      
 const view_order = async (req, res, next) => 
 {
     let cart = new Cart(req.session.cart ? req.session.cart : {});
-    res.render('pages/order', {  cart_counter: cart.countProducts() }  );
+    if(cart.totalQty != 0)
+    {
+        res.render('pages/order', {  cart_counter: cart.countProducts() }  );
+    }
+    else
+    {
+        res.render('pages/404');
+    }
+
 
 }
 

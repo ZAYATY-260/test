@@ -4,7 +4,7 @@ const path = require('path');
 const Product = require('../models/products_model.js');
 
 // Function to save image and add product
-async function saveImageAndAddProduct(name, description, price, image) {
+async function saveImageAndAddProduct(name, description, price, image ,sale , category) {
   if (!name || !description || !price || !image) {
     throw new Error('Missing required fields');
   }
@@ -30,6 +30,8 @@ async function saveImageAndAddProduct(name, description, price, image) {
     name,
     description,
     price,
+    sale,
+    category,
     images: imagePath
   });
 
@@ -39,10 +41,10 @@ async function saveImageAndAddProduct(name, description, price, image) {
 module.exports = {
   addProduct: async (req, res) => {
     try {
-      const { name, description, price } = req.body;
+      const { name, description, price , sale ,category } = req.body;
       const image = req.file;
 
-      const newProduct = await saveImageAndAddProduct(name, description, price, image);
+      const newProduct = await saveImageAndAddProduct(name, description, price, image, sale ,category);
       
       res.status(201).json(newProduct);
     } catch (error) {

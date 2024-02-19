@@ -15,10 +15,17 @@ const productsSchema = new Schema({
     category: {
         type: String,
     },
+    sale: {
+        type: Number,
+    },
     Image: {
         type: String,
     }
 }, { timestamps: true });
+
+
+// Create a text index on the 'pname' field
+productsSchema.index({ pname: 'text' });
 
 const Product = mongoose.model('Product', productsSchema);
 
