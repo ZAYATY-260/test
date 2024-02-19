@@ -46,8 +46,10 @@ rel="stylesheet"
                <h4 class="text-center mt-5 mb-4">ALL products</h4>
         <%}%>
       <div class="row row-cols-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        <% let x = 0; %>
         <% for(let i = 0 ; i < product_search.length; i++ ){ %>
-          <%- include("../partials/product-card.ejs", {product: product_search[i]}) %>
+          <%- include("../partials/product-card.ejs", {product: product_search[i] ,  x:x}) %>
+          <% x = x + 3 %>
             <%}%>
       </div>
     </div>

@@ -52,7 +52,9 @@ const get_product_search_results = async (req, res) => {
     const query = req.body.query;
     product.find({ $text: { $search: query } })
     .then(products => {
-        res.render('pages/search', {  product_search: products ,  cart_counter: cart.countProducts()});
+          // Extract file paths from each product's images array
+         const productImages = products.map(product => product.images).flat();
+        res.render('pages/search', {  product_search: products ,  cart_counter: cart.countProducts(), product_images: productImages});
     })
     .catch(err => console.log(err));
 };
@@ -63,7 +65,8 @@ const get_product_search = async (req, res) => {
   product.find()
     .then(products => {
       console.log(products);
-      res.render('pages/search', { product_search: products ,  cart_counter: cart.countProducts()});
+      const productImages = products.map(product => product.images).flat();
+      res.render('pages/search', { product_search: products ,  cart_counter: cart.countProducts(), product_images: productImages});
     })
     .catch(err => {
       console.error(err);
