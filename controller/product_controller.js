@@ -13,7 +13,7 @@ const get_product_index = async (req, res, next) => {
   
   let cart = new Cart(req.session.cart ? req.session.cart : {});
 
-  product.aggregate([{ $sample: { size: 4 } }])
+  product.aggregate([{ $sample: { size: 8} }])
   .then(result => {
     
     res.render('pages/index', { product_client: result, isEmpty: result.length >= 4 ? false : true ,  cart_counter: cart.countProducts()  });
