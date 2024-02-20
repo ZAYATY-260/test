@@ -6,7 +6,7 @@ const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
 const path = require('path')
 const app = express()
-const port = 10000;
+const port = 3000;
 const dbURI = "mongodb+srv://zayaty:9H3jdMZ3ntLDcowq@cluster0.33tbygn.mongodb.net/test?retryWrites=true&w=majority"
 const index_router = require('./routes/index.js');
 const admin_router = require ( "./routes/admin.js");
@@ -25,6 +25,7 @@ mongoose.connect(dbURI)
       Cookie: { maxAge: 180 * 60 * 1000 }
       // 180min in cookies
     } ));
+mongoose.set('strictQuery', true);
 //setup json middleware
 app.use(express.json());
 
