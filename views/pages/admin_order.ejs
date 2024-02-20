@@ -7,25 +7,27 @@
     <link rel="stylesheet" href="/style/profile.css">
     <link rel="stylesheet" href="/style/framework.css">
     <link rel="stylesheet" href="/style/master.css">
-</head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-y: scroll; /* Enable vertical scrolling */
+        }
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    .table_econatiner {
-        max-height: 200px; /* Set the maximum height of the table container */
-    overflow-y: auto;
-    }
+        .table-container {
+            max-height: 1000px; /* Set the maximum height of the table container */
+            overflow-y: auto; /* Enable vertical scrolling for the table container */
+            overflow-x: auto; /* Hide horizontal scrollbar if present */
+        }
+
         table {
-            overflow: visible !important;
             width: 100%;
             border-collapse: collapse;
         }
 
-        table, th, td {
-            overflow: visible !important;
+        table,
+        th,
+        td {
             border: 1px solid black;
             padding: 8px;
         }
@@ -34,43 +36,37 @@
             background-color: #f2f2f2;
         }
     </style>
-</style>
+</head>
 
 <body>
-
-            <div class="page d-flex">
-                <%- include("../partials/sidebar_admin.ejs") %>
-
-                    <div class="content w-full  p-5">
-
-                 <h2>Order Information</h2>
-                 <div class="table-container">
+    <div class="page d-flex">
+        <%- include("../partials/sidebar_admin.ejs") %>
+        <div class="content w-full  p-5">
+            <h2>Order Information</h2>
+            <div class="table-container">
                 <table>
-                <thead>
-                <tr>
-                <th>Address</th>
-                <th>Phone Number</th>
-                <th>Email</th>
-                <th>First Name</th>
-                <th>Total Price</th>
-                <th>Total Quantity</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Sample data, replace with actual data from your database -->
-            <% for(let i = 0 ; i < order.length; i++ ){ %>
-                <%- include("../partials/order_card.ejs", {product: order[i]}) %>
-                  <%}%>
-
-            <!-- Add more rows as needed -->
-        </tbody>
-    </table>
-</div>
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>First Name</th>
+                            <th>Total Price</th>
+                            <th>Total Quantity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample data, replace with actual data from your database -->
+                        <% for(let i = 0 ; i < order.length; i++ ){ %>
+                        <%- include("../partials/order_card.ejs", {product: order[i]}) %>
+                        <%}%>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    </div>
-
-
 </body>
 
 </html>
