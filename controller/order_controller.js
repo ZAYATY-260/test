@@ -29,15 +29,15 @@ const Cart =  require("../models/cart-model.js");
         }
 
         // Check if email is provided
-        if (!req.body.email) {
-            return res.status(400).send("Email is required.");
-        }
+        // if (!req.body.email) {
+        //     return res.status(400).send("Email is required.");
+        // }
 
         // Check if user already exists based on email address
-        const existingUser = await user.findOne({ Email: req.body.email });
-        if (existingUser) {
-            return res.status(400).send("User with this email address already exists.");
-        }
+        // const existingUser = await user.findOne({ Email: req.body.email });
+        // if (existingUser) {
+        //     return res.status(400).send("User with this email address already exists.");
+        // }
 
         const userData = {
             Fname: req.body.firstName,
