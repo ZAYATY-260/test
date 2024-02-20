@@ -18,6 +18,9 @@
             max-height: 1000px; /* Set the maximum height of the table container */
             overflow-y: auto; /* Enable vertical scrolling for the table container */
             overflow-x: auto; /* Hide horizontal scrollbar if present */
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-right: 20px;
         }
 
         table {
@@ -41,9 +44,8 @@
 <body>
     <div class="page d-flex">
         <%- include("../partials/sidebar_admin.ejs") %>
-        <div class="content w-full p-5">
-            <h2>Order Information</h2>
-            <div class="table-container">
+        <div class="content w-full  ">
+            <div class="table-container ">
                 <table>
                     <thead>
                         <tr>
