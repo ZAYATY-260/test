@@ -255,7 +255,7 @@ const Delete_order = (req, res) =>
     }
     else
     {
-      res.render('pages/admin_order');
+      res.render('pages/veiw-product');
     }
   })
 }
