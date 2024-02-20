@@ -5,7 +5,7 @@ const Cart =  require("../models/cart-model.js");
 
 
 
-const Add_order = async (req, res, next) => {
+ Add_order = async (req, res, next) => {
     try {
         // Ensure session is initialized
         if (!req.session.cart) {
@@ -26,6 +26,11 @@ const Add_order = async (req, res, next) => {
         // Check if cart has items
         if (Object.keys(cart.items).length === 0) {
             return res.status(400).send("Cart is empty. Cannot proceed with the order.");
+        }
+
+        // Check if email is provided
+        if (!req.body.email) {
+            return res.status(400).send("Email is required.");
         }
 
         // Check if user already exists based on email address
@@ -56,10 +61,9 @@ const Add_order = async (req, res, next) => {
         res.redirect('/');
     } catch (error) {
         console.error("Error saving user data:", error);
-        res.status(500).render('page/404'); // Render the custom error page
+        res.status(500).send("Error occurred while saving user data. Please try again later.");
     }
 }
-
       
 const view_order = async (req, res, next) => 
 {
