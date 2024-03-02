@@ -15,7 +15,7 @@ const Cart =  require("../models/cart-model.js");
         let cart = new Cart(req.session.cart);
 
         // Accessing total price
-        cart.totalPrice = cart.totalPrice + 40;
+        cart.totalPrice = cart.totalPrice + 50;
 
         // Save updated cart back to session
         req.session.cart = cart;
