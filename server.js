@@ -29,6 +29,11 @@ mongoose.connect(dbURI)
       // 180min in cookies
     } ));
 
+    app.use(compression({
+      level: 6, // Compression level (0-9)
+      threshold: 1024 // Minimum response size in bytes to compress
+    }));
+    
 
 //setup json middleware
 app.use(express.json());

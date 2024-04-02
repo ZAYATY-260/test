@@ -4,7 +4,7 @@
           <div class="bg-image hover-zoom" style="position: relative;">
             <% if (product_images) { %>
               <div class="image-container">
-                  <img src="../images/<%=product_images[x] %>"  class="card-img-top img-fluid" alt="Product Image" style="max-height: 100%; width: auto; max-width: 100%;">
+                  <img src="../images/<%=product_images[x] %>"  class="card-img-top img-fluid" alt="Product Image" loading="lazy" style="max-height: 100%; width: auto; max-width: 100%;">
 
               </div>
             <% } else { %>
