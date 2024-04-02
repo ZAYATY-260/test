@@ -268,25 +268,48 @@ const Delete_order = (req, res) =>
 const Delete_product = (req, res) => {
   if (req.session && req.session.user) {
     const productId = req.params.id;
-  
-    product.findByIdAndDelete(productId)
+
+    product.findById(productId)
       .then(result => {
         if (!result) {
           return res.status(404).send('Product not found');
         }
-  
-        // Delete the associated image files
-        result.images.forEach(imgFileName => {
-          const imagePath = path.join(__dirname, '../public/images/', imgFileName);
-          fs.unlink(imagePath, (err) => {
-            if (err) {
-              console.error(err);
-              return res.status(500).send('Error deleting image file');
-            }
+
+        const baseFileNames = result.images.map(imgFileNameWithType => {
+          const [fileName] = imgFileNameWithType.split('.');
+          return fileName.split('_')[0];
+        });
+
+        // Delete all files with the same base filenames
+        fs.readdir(path.join(__dirname, '../public/images/'), (err, files) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send('Error reading image directory');
+          }
+          files.forEach(file => {
+            baseFileNames.forEach(baseFileName => {
+              if (file.startsWith(baseFileName)) {
+                const filePath = path.join(__dirname, '../public/images/', file);
+                fs.unlink(filePath, (err) => {
+                  if (err) {
+                    console.error(err);
+                    // Log the error, but don't send a response to the client
+                  }
+                });
+              }
+            });
           });
         });
-  
-        res.render('pages/add_product'); // Render appropriate view after deletion
+
+        // After deleting associated image files, delete the product
+        product.findByIdAndDelete(productId)
+          .then(() => {
+            res.redirect('/admin/view_product'); // Render appropriate view after deletion
+          })
+          .catch(err => {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+          });
       })
       .catch(err => {
         console.error(err);
@@ -295,7 +318,7 @@ const Delete_product = (req, res) => {
   } else {
     res.render('pages/signin');
   }
-  
 };
+
 
 module.exports = { get_product_admin, get_product_index,get_order_by_id,Delete_order, Add_product,get_orders_for_admin, Delete_product, Edit_product  , get_product_by_id , get_product_for_admin ,get_product_search , get_product_search_results};

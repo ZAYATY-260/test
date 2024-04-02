@@ -4,6 +4,7 @@ const path = require('path');
 const router = express.Router();
 const Product = require("../controller/product_controller.js");
 const admin = require("../controller/admin_controller.js");
+const sharp = require('sharp');
 
 // Define storage settings for Multer
 const storage = multer.diskStorage({
@@ -29,6 +30,42 @@ router.get('/', function (req, res) {
 }
 });
 
+const convertToWebP = async (req, res, next) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return next();
+    }
+
+    // Process each uploaded image
+    await Promise.all(req.files.map(async (file) => {
+      const imagePath = path.join('public/images', file.filename);
+      const webPPath = path.join('public/images', path.parse(file.filename).name + '.webp');
+      const relativeWebPPath = path.join('images', path.parse(file.filename).name + '.webp'); // Relative path without "public"
+
+      try {
+        // Resize the image to 300 pixels width and convert it to WebP format using Sharp
+        await sharp(imagePath)
+          .resize({ width: 300 })
+          .toFormat('webp')
+          .toFile(webPPath);
+
+        file.webPPath = path.parse(relativeWebPPath).base; // Store only the file name without the directory
+      } catch (error) {
+        console.error('Error converting image to WebP:', error);
+        return next(error); // Pass the error to the next middleware
+      }
+    }));
+
+    next();
+  } catch (err) {
+    console.error('Error processing images:', err);
+    next(err); // Pass the error to the next middleware
+  }
+};
+
+
+
+
 router.post('/signin',admin.signin );
 
 router.get("/add_product",(req,res)=>
@@ -53,7 +90,7 @@ router.get("/admin_dashboard",(req,res)=>
    
 });
 
-router.post("/add_product",upload.array('images', 3),Product.Add_product);
+router.post("/add_product", upload.array('images', 3), convertToWebP, Product.Add_product);
 
 router.get("/admin_orders",Product.get_orders_for_admin);
 
